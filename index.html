@@ -325,10 +325,15 @@
                 let textarea = document.querySelector(".textarea");
 
                 textarea.addEventListener('blur',() => {
-                    store.innerHTML = textarea.value;
 
-                    //changing array when deleting some task
-                    array.splice(index,1,textarea.value);
+                    if(textarea.value.trim() === ""){
+                        alert("Please enter something:)");
+                    }
+                    else{
+                        store.innerHTML = textarea.value;
+                        //changing array when deleting some task
+                        array.splice(index,1,textarea.value);
+                    }
                 });                
         }
 
@@ -337,7 +342,12 @@
         function doneDiv(index){
             let store = document.getElementById(`${index}`);
 
-            store.innerHTML = textarea.value;
+            if(textarea.value.trim() === ""){
+                alert("Please enter something:)");
+            }
+            else{
+                // store.innerHTML = textarea.value;
+            }
         }
 
 </script>
