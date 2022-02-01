@@ -83,13 +83,14 @@
             height: auto;
             margin-bottom: 10px;
             max-height: 52vh;
+            overflow-x: hidden;
             overflow-y: auto;
         }
         #elem{
             display: flex; 
             justify-content: space-evenly;
             flex-wrap: wrap;
-            width: 90%;
+            width: 91%;
             height: auto; 
             border: 2px solid white; 
             margin-bottom: 10px;
@@ -119,6 +120,11 @@
         h4{
             background-color: orangered;
             padding: 2px;
+        }
+        @media screen and (max-width : 600px){
+            #result{
+                width: 92vw;
+            }
         }
     </style>
 
@@ -233,7 +239,7 @@
                     <button id="btn3" onclick="deleteTask(${index})" class="btn btn3 btn-danger"><i class="fas fa-trash"> Delete</i></button>
                     </div>
 
-                </div> `; 
+                </div><h2 class="white">${index+1}</h2> `; 
 
                 
                 // console.log(html);
