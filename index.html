@@ -169,13 +169,14 @@
         result.innerHTML = `<h4 class="white">Nothing to show! You can add your task.</h4>`;
     }
 
+    
     btn.addEventListener('click',()=>{
         
-        if(text.value === ""){
+        if(text.value.trim() === ""){
             alert("Please enter something:)");
         }
         else{
-
+            // console.log(text.value);
             array.push(text.value);
             showElement();
             text.value = "";    
