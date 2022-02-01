@@ -164,6 +164,7 @@
     let result = document.getElementById("result");
     let cont = document.querySelector('.container');
     let array = [];
+    let markArray = [];
 
     if(array.length == 0){
         result.innerHTML = `<h4 class="white">Nothing to show! You can add your task.</h4>`;
@@ -178,8 +179,18 @@
         else{
             // console.log(text.value);
             array.push(text.value);
+            markArray.push('none');
+
             showElement();
             text.value = "";    
+
+                for(let i=0 ; i<markArray.length; i++){
+                        let checkboxVar = document.getElementById(`cb${i}`);
+                        if(markArray[i] === 'line-through'){
+                            markTask(i); 
+                            checkboxVar.checked = true;
+                        }
+                }
 
             }
     });
@@ -201,7 +212,7 @@
                 <div id="elem" class="elem" >
 
                     <div class="col">
-                    <input type="checkbox" onclick="markTask(${index})" name="checkbox" id="cb" class="larger">
+                    <input type="checkbox" onclick="markTask(${index})" name="checkbox" id="cb${index}" class="larger">
                     </div>
 
                     <div id="${index}" class="col store" style="text-decoration:none">
@@ -221,7 +232,17 @@
                     </div>
 
                 </div> `; 
+
+                
+                // console.log(html);
         });
+
+            for(let i=0;i<array.length;i++){
+                markArray.push('none');
+            }
+            // console.log(markArray);
+
+
 
             if(array.length != 0){
                 result.innerHTML = html;
@@ -240,7 +261,20 @@
             if(confirm("You want to delete your task?")){
                 // console.log("Deleting index",index);
                 array.splice(index,1);
+                markArray.splice(index,1);
+                
                 showElement();
+                
+                // console.log(checkboxVar.checked); 
+                
+                for(let i=0 ; i<markArray.length; i++){
+                    let checkboxVar = document.getElementById(`cb${i}`);
+                    if(markArray[i] === 'line-through'){
+                        markTask(i); 
+                        checkboxVar.checked = true;
+                    }
+
+                }
             }
         }   
 
@@ -251,13 +285,20 @@
 
             let store = document.getElementById(`${index}`);
             // console.log(store.innerHTML);
-
+            
             if(store.style.textDecoration === "none"){
+
                 store.style.textDecoration = "line-through";
+                markArray.splice(index,1,store.style.textDecoration);
+                // console.log(markArray);
+
             }
             else{
                 store.style.textDecoration="none";
+                markArray.splice(index,1,store.style.textDecoration);
+                // console.log(markArray);
             }
+
         }
 
 
@@ -277,6 +318,7 @@
 
                 textarea.addEventListener('blur',() => {
                     store.innerHTML = textarea.value;
+
                     //changing array when deleting some task
                     array.splice(index,1,textarea.value);
                 });                
