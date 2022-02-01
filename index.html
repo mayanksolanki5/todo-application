@@ -277,6 +277,8 @@
 
                 textarea.addEventListener('blur',() => {
                     store.innerHTML = textarea.value;
+                    //changing array when deleting some task
+                    array.splice(index,1,textarea.value);
                 });                
         }
 
