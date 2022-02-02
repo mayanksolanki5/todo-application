@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <title>ToDo-Application</title>
     </head>
+
+
     <style>
         *{
             margin: 0;
@@ -107,7 +109,7 @@
             margin-bottom: 5px;
             margin-left: 2px;
         }
-        #btn{
+        #btn,#deleteAll{
             margin-top: 2px;
         }
         .larger{
@@ -158,6 +160,7 @@
             <div id="input">
                 <input type="text" id="text" placeholder="Add your task.."  >
                 <button id="btn" class="btn btn-primary"><i class="fas fa-plus-circle"> Add</i></button>
+                <button id="deleteAll" onclick="deleteAll()" class="btn btn3 btn-danger"><i class="fas fa-trash"> DeleteAll</i></button>
             </div>
             
             <div><hr>
@@ -195,11 +198,11 @@
         result.innerHTML = `<h4 class="white">Nothing to show! You can add your task.</h4>`;
     }
 
-
+        // This function will be called when user refreshes the page
     showElement();
 
 
-
+                //when user click on add button, this event will happen
     btn.addEventListener('click',()=>{
         
         if(text.value.trim() === ""){
@@ -246,7 +249,8 @@
     });
 
 
-
+        // When user is writing something on textbox and then user click enter button then
+        // this event will be happen and from this event it will call btn(add) event 
     text.addEventListener('keyup',(event)=>{
         if(event.keyCode === 13){
             event.preventDefault();
@@ -334,8 +338,7 @@
 
 
 
-                    // delete your element
-
+                    // For deleting your element
         function deleteTask(index){
             if(confirm("You want to delete your task?")){
 
@@ -379,9 +382,9 @@
         }   
 
 
-        
+
     
-                        // mark the text when it is finished
+                        // Mark the text when it is finished
 
         function markTask(index){
 
@@ -422,7 +425,7 @@
         }
 
 
-                    // edit the div
+                    // Edit the div
 
         function editDiv(index){
                 let noOfTextArea = document.getElementsByClassName("textarea").length;     
@@ -462,7 +465,7 @@
         }
 
 
-                    // done button after edit
+                    // Done button after edit
         function doneDiv(index){
             let store = document.getElementById(`${index}`);
 
@@ -471,6 +474,20 @@
             }
             else{
                 // store.innerHTML = textarea.value;
+            }
+        }
+
+
+            // This function will remove your all tasks 
+        function deleteAll(){
+            if(localStorage.tasks == null){
+                alert("Nothing to delete! You can add your task.");
+            }
+            else{
+                if(confirm("You want delete your all task?")){
+                    localStorage.clear();
+                    showElement();
+                }
             }
         }
 
