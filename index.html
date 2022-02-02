@@ -130,6 +130,13 @@
 
 
 
+
+
+
+
+
+
+
 <body>
     <header>
         <nav>
@@ -166,6 +173,16 @@
     <!-- <img src="https://images.unsplash.com/photo-1444080748397-f442aa95c3e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1032&q=80" alt="Nature's img" id="bgImg"> -->
     </body>
 
+
+
+
+
+
+
+
+
+
+
 <script>
     let text = document.getElementById("text"); 
     let btn = document.getElementById("btn");
@@ -178,30 +195,56 @@
         result.innerHTML = `<h4 class="white">Nothing to show! You can add your task.</h4>`;
     }
 
-    
+
+    showElement();
+
+
+
     btn.addEventListener('click',()=>{
         
         if(text.value.trim() === ""){
             alert("Please enter something:)");
         }
         else{
-            // console.log(text.value);
+            
+            let tasks = localStorage.getItem("tasks");
+            if(tasks == null){
+                array = [];
+            }
+            else{
+                array = JSON.parse(tasks);
+            }
+
             array.push(text.value);
+            localStorage.setItem("tasks",JSON.stringify(array));
+
+
+                        // localStorage for checkbox
+            let checks = localStorage.getItem("checks");
+            if(checks == null){
+                markArray = [];
+            }
+            else{
+                markArray = JSON.parse(checks);
+            }
             markArray.push('none');
+            localStorage.setItem("checks",JSON.stringify(markArray));
 
-            showElement();
+
             text.value = "";    
+            showElement();
 
-                for(let i=0 ; i<markArray.length; i++){
-                        let checkboxVar = document.getElementById(`cb${i}`);
-                        if(markArray[i] === 'line-through'){
-                            markTask(i); 
-                            checkboxVar.checked = true;
-                        }
-                }
+                // for(let i=0 ; i<markArray.length; i++){
+                //         let checkboxVar = document.getElementById(`cb${i}`);
+                //         if(markArray[i] === 'line-through'){
+                //             markTask(i); 
+                //             checkboxVar.checked = true;
+                //         }
+                // }
 
             }
     });
+
 
 
     text.addEventListener('keyup',(event)=>{
@@ -212,7 +255,18 @@
     });
 
 
+
     function showElement(){
+
+        let tasks = localStorage.getItem("tasks");
+
+            if(tasks == null){
+                array = [];
+            }
+            else{
+                array = JSON.parse(tasks);
+            }
+
 
         let html = "";
         array.forEach((element,index)=>{
@@ -245,11 +299,20 @@
                 // console.log(html);
         });
 
+
+        let checks = localStorage.getItem("checks");
+            if(checks == null){
+                markArray = [];
+            }
+            else{
+                markArray = JSON.parse(checks);
+            }
+
             for(let i=0;i<array.length;i++){
                 markArray.push('none');
             }
+            localStorage.setItem("checks",JSON.stringify(markArray));
             // console.log(markArray);
-
 
 
             if(array.length != 0){
@@ -259,6 +322,14 @@
                 result.innerHTML = `<h4 class="white">Nothing to show! You can add your task.</h4>`;
             }
 
+            for(let i=0 ; i<markArray.length; i++){
+                    let checkboxVar = document.getElementById(`cb${i}`);
+                    if(markArray[i] === 'line-through'){
+                        markTask(i); 
+                        checkboxVar.checked = true;
+                    }
+                    
+            }
     };
 
 
@@ -267,25 +338,48 @@
 
         function deleteTask(index){
             if(confirm("You want to delete your task?")){
+
+                let tasks = localStorage.getItem("tasks");
+
+                if(tasks == null){
+                    array = [];
+                }
+                else{
+                    array = JSON.parse(tasks);
+                }
+
                 // console.log("Deleting index",index);
                 array.splice(index,1);
+                localStorage.setItem("tasks",JSON.stringify(array));
+
+                let checks = localStorage.getItem("checks");
+                    if(checks == null){
+                        markArray = [];
+                    }
+                    else{
+                        markArray = JSON.parse(checks);
+                    }
                 markArray.splice(index,1);
+                localStorage.setItem("checks",JSON.stringify(markArray));
+
                 
                 showElement();
                 
                 // console.log(checkboxVar.checked); 
                 
-                for(let i=0 ; i<markArray.length; i++){
-                    let checkboxVar = document.getElementById(`cb${i}`);
-                    if(markArray[i] === 'line-through'){
-                        markTask(i); 
-                        checkboxVar.checked = true;
-                    }
-
-                }
+                // for(let i=0 ; i<markArray.length; i++){
+                //     let checkboxVar = document.getElementById(`cb${i}`);
+                //     if(markArray[i] === 'line-through'){
+                //         markTask(i); 
+                //         checkboxVar.checked = true;
+                //     }
+                    
+                // }
             }
         }   
 
+
+        
     
                         // mark the text when it is finished
 
@@ -295,15 +389,33 @@
             // console.log(store.innerHTML);
             
             if(store.style.textDecoration === "none"){
-
                 store.style.textDecoration = "line-through";
+
+                let checks = localStorage.getItem("checks");
+                    if(checks == null){
+                        markArray = [];
+                    }
+                    else{
+                        markArray = JSON.parse(checks);
+                    }
+
                 markArray.splice(index,1,store.style.textDecoration);
+                localStorage.setItem("checks",JSON.stringify(markArray));
                 // console.log(markArray);
 
             }
             else{
                 store.style.textDecoration="none";
+
+                let checks = localStorage.getItem("checks");
+                    if(checks == null){
+                        markArray = [];
+                    }
+                    else{
+                        markArray = JSON.parse(checks);
+                    }
                 markArray.splice(index,1,store.style.textDecoration);
+                localStorage.setItem("checks",JSON.stringify(markArray));
                 // console.log(markArray);
             }
 
@@ -331,8 +443,20 @@
                     }
                     else{
                         store.innerHTML = textarea.value;
+
+                        let tasks = localStorage.getItem("tasks");
+
+                        if(tasks == null){
+                            array = [];
+                        }
+                        else{
+                            array = JSON.parse(tasks);
+                        }
+
                         //changing array when deleting some task
                         array.splice(index,1,textarea.value);
+                        localStorage.setItem("tasks",JSON.stringify(array));
+
                     }
                 });                
         }
