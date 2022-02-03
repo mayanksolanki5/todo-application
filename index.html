@@ -443,7 +443,7 @@
                 
 
                 if(noOfTextArea === 0){
-                    let html = store.innerHTML;
+                    let html = store.innerHTML.trim();
                     store.innerHTML = `<textarea class="textarea form-control" id="textarea" rows="1">${html}</textarea>`;
                 }
                 
@@ -508,7 +508,7 @@
               
         function searchTask(){
             let search = document.getElementById("search");
-            let  searchValue = search.value;
+            let  searchValue = search.value.toLowerCase();
 
                         // All task in app 
             let allTask = document.getElementsByClassName("store");
