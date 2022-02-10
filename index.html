@@ -109,6 +109,7 @@
             background-color: white;
             text-align: center;
             font-size: 20px;
+            overflow-x: hidden;
         }
         .col{
             margin-top: 5px;
@@ -136,13 +137,17 @@
             #elem{
                 width: 90%;
             }
+            .store{
+                width: 90%;
+            }
+        }
+        @media screen and (min-width : 600px){
+            .radioPad{
+                display: flex;
+                flex-direction: column;
+            }
         }
     </style>
-
-
-
-
-
 
 
 
@@ -157,7 +162,23 @@
                 <li><a href="#">contact</a></li> -->
             </ul>
         </nav>
-        <input type="input" id="search" oninput="searchTask()" placeholder="search...">
+
+        <div class="white radioPad">
+            <div>
+                <label for="all">AllTask</label>
+                <input type="radio" name="radio" id="all" checked>
+            </div>                
+            <div>
+                <label for="allFinished">Finished</label>
+                <input type="radio" name="radio" id="allFinished">
+            </div>
+            <div>    
+                <label for="allLeft">Left</label>
+                <input type="radio" name="radio" id="allLeft">
+            </div>    
+        </div>
+        
+        <input type="input" id="search" oninput="searchTask()" placeholder="Search your Task...">
     </header>
 
     <main>
@@ -193,10 +214,8 @@
 
 
 
-
-
-
 <script>
+
     let text = document.getElementById("text"); 
     let btn = document.getElementById("btn");
     let result = document.getElementById("result");
@@ -303,7 +322,7 @@
                         <button id="btn4" onclick="doneDiv(${index})" class="btn ${index} btn4 btn-info"><i class="fas fa-check-circle"> Done</i></button>
                     </div>
 
-                    <div class="col">
+                    <div class="col">   
                     <button id="btn3" onclick="deleteTask(${index})" class="btn btn3 btn-danger"><i class="fas fa-trash"> Delete</i></button>
                     </div>
 
@@ -438,6 +457,7 @@
                     // Edit the div
 
         function editDiv(index){
+            
                 let noOfTextArea = document.getElementsByClassName("textarea").length;     
                 let store = document.getElementById(`${index}`); 
                 
@@ -448,7 +468,7 @@
                 }
                 
                 let textarea = document.querySelector(".textarea");
-
+                textarea.focus();
                 textarea.addEventListener('blur',() => {
 
                     if(textarea.value.trim() === ""){
@@ -540,6 +560,77 @@
 
         }
 
+
+
+            // All Task
+        let allTask = document.getElementById("all");
+        allTask.addEventListener('click',() => {
+            showElement();
+        });
+
+            // Finished Task
+        let allFinished = document.getElementById("allFinished");
+        allFinished.addEventListener('click',() => {
+            showElement();
+            let tasks = localStorage.getItem("tasks");
+            if(tasks == null){
+                array = [];
+            }
+            else{
+                array = JSON.parse(tasks);
+            }
+
+            let checks = localStorage.getItem("checks");
+            if(checks == null){
+                markArray = [];
+            }
+            else{
+                markArray = JSON.parse(checks);
+            }
+
+            for(let i=0 ; i<array.length ; i++){
+                let element = document.getElementsByClassName(`elem${i}`)[0];
+                let remove = document.getElementsByClassName("remove")[i];
+                // console.log(remove);
+                
+                if(markArray[i] === "none"){
+                    element.style.display = "none";
+                    remove.style.display = "none";
+                }
+            }
+            
+        });
+
+            // Remaining Task
+        let allLeft = document.getElementById("allLeft"); 
+        allLeft.addEventListener('click',() => {
+            showElement();
+            let tasks = localStorage.getItem("tasks");
+            if(tasks == null){
+                array = [];
+            }
+            else{
+                array = JSON.parse(tasks);
+            }
+            let checks = localStorage.getItem("checks");
+            if(checks == null){
+                markArray = [];
+            }
+            else{
+                markArray = JSON.parse(checks);
+            }
+
+            for(let i=0 ; i<array.length ; i++){
+                let element = document.getElementsByClassName(`elem${i}`)[0];
+                let remove = document.getElementsByClassName("remove")[i];
+                // console.log(remove);
+                
+                if(markArray[i] === "line-through"){
+                    element.style.display = "none";
+                    remove.style.display = "none";
+                }
+            }            
+        });
 
 </script>
 </html>
